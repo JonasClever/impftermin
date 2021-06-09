@@ -3,14 +3,14 @@ import json
 from datetime import datetime
 import requests
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, CallbackContext
+from telegram.ext import Updater, CommandHandler, CallbackContext
 from telegram import Update
 import logging
 
 STOREFILE = "contacts.txt"
 bot_token = ':)'
 chat_id_message_id = []
-UPDATE_INTERVAL = 30
+UPDATE_INTERVAL = 30  # seconds
 
 
 def request(context: CallbackContext) -> None:
@@ -50,7 +50,7 @@ def request(context: CallbackContext) -> None:
             text += "Impftermine: " + str(r.json()["total"]) + "\n"
             for availability in r.json()["availabilities"]:
                 text += str(availability) + "\n"
-            text += "https://www.doctolib.de/praxis/hueckelhoven/covid-testzentrum-heinsberg \n"
+            text += "https://www.doctolib.de/praxis/hueckelhoven/covid-testzentrum-heinsberg \n"  # direct link for notification text
             context.bot.send_message(chat_id=chat_id, text=text, disable_web_page_preview=True)
 
         context.bot.editMessageText(text=now.strftime("Stand: %H:%M:%S %d/%m/%Y"), chat_id=chat_id,
